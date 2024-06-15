@@ -2,40 +2,39 @@ package project.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
 
 @Entity
-public class Person {
+@Table(name = "gas_station")
+public class GasStation {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
     @Column
     private String name;
     @Column
-    private int age;
-    @OneToOne(mappedBy = "person")
-    private Car car;
+    private int number;
 
-    @ManyToMany(mappedBy ="personList", fetch = FetchType.EAGER)
-    private List<GasStation> stationList;
+    @ManyToMany
+    @JoinTable(name = "person_gas_station",
+            joinColumns = @JoinColumn(name = "gas_station_id"),
+            inverseJoinColumns = @JoinColumn(name ="person_id"))
+    private List<Person> personList;
 
-    public Person() {
+    public GasStation() {
     }
 
-    public Person(String name, int age) {
+    public GasStation(String name, int number) {
         this.name = name;
-        this.age = age;
+        this.number = number;
     }
 
     public int getId() {
@@ -54,37 +53,20 @@ public class Person {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public int getNumber() {
+        return number;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setNumber(int number) {
+        this.number = number;
     }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    public List<GasStation> getStationList() {
-        return stationList;
-    }
-
-    public void setStationList(List<GasStation> stationList) {
-        this.stationList = stationList;
-    }
-
 
     @Override
     public String toString() {
-        return "Person{" +
-                "age=" + age +
+        return "GasStation{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", id=" + id +
+                ", number=" + number +
                 '}';
     }
 }
