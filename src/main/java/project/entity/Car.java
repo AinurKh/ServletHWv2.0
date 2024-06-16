@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Car {
     @Id
     @Column(name = "car_id")
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToOne

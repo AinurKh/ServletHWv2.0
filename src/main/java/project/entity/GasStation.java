@@ -2,6 +2,7 @@ package project.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,14 +17,14 @@ import java.util.List;
 @Table(name = "gas_station")
 public class GasStation {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
     @Column
     private int number;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person_gas_station",
             joinColumns = @JoinColumn(name = "gas_station_id"),
             inverseJoinColumns = @JoinColumn(name ="person_id"))
@@ -59,6 +60,14 @@ public class GasStation {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
     }
 
     @Override
